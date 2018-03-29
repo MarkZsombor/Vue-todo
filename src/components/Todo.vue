@@ -39,7 +39,8 @@
     <div class='ui bottom attached green basic button' v-show="todo.done">
       Completed
     </div>
-    <div class='ui bottom attached red basic button' v-show="!todo.done">
+    <!-- eslint-disable-next-line -->
+    <div class='ui bottom attached red basic button' v-show="!todo.done" v-on:click="completeTodo(todo)">
       Complete
     </div>
   </div>
@@ -63,6 +64,9 @@ export default {
     },
     deleteTodo(todo) {
       this.$emit('delete-todo', todo);
+    },
+    completeTodo(todo) {
+      this.$emit('complete-todo', todo);
     },
   },
 };
