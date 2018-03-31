@@ -49,18 +49,6 @@ export default {
       this.isCreating = false;
     },
     sendForm() {
-      // if (this.titleText.length > 2 && this.projectText.length > 5) {
-      //   const title = this.titleText;
-      //   const project = this.projectText;
-      //   this.$emit('create-todo', {
-      //     title,
-      //     project,
-      //     done: false,
-      //   });
-      //   this.newTodoText = '';
-      // }
-      // this.isCreating = false;
-      // },
       this.$validator.validateAll().then((result) => {
         if (result) {
           const title = this.titleText;
@@ -80,3 +68,13 @@ export default {
   },
 };
 </script>
+
+<style>
+  .alert {
+    background-color: #fdf2ce;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px;
+    margin-top: -20px;
+  }
+</style>
