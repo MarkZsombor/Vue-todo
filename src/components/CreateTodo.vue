@@ -10,13 +10,17 @@
             <label>Title</label>
             <!-- eslint-disable-next-line -->
             <input v-model="titleText" type="text" ref="title" defaultValue="" v-validate="'min:2'" name="title">
-            <p class="alert" v-if="errors.has('title')">{{ errors.first('title') }} </p>
+            <transition name="alert-in">
+              <p class="alert" v-if="errors.has('title')">{{ errors.first('title') }} </p>
+            </transition>
           </div>
           <div class='field'>
             <label>Project</label>
             <!-- eslint-disable-next-line -->
             <input v-model="projectText" type="text"  ref="project" defaultValue="" v-validate="'min:5'" name="project">
-            <p class="alert" v-if="errors.has('project')">{{ errors.first('project') }} </p>
+            <transition name="alert-in">
+              <p class="alert" v-if="errors.has('project')">{{ errors.first('project') }} </p>
+            </transition>
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -61,6 +65,7 @@ export default {
           this.newTodoText = '';
           this.isCreating = false;
         } else {
+          // eslint-disable-next-line
           console.log('Inputs not valid');
         }
       });
@@ -69,12 +74,32 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .alert {
     background-color: #fdf2ce;
     font-weight: bold;
     display: inline-block;
     padding: 5px;
     margin-top: -20px;
+  }
+
+  .alert-in-enter-active {
+    animation: bounce-in .5s;
+  }
+
+  .alert-in-leave-active {
+    animation: bounce-in .5s reverse;
+  }
+
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 </style>
