@@ -8,11 +8,15 @@
         <div class='ui form'>
           <div class='field'>
             <label>Title</label>
-            <input v-model="titleText" type="text" ref="title" defaultValue="">
+            <!-- eslint-disable-next-line -->
+            <input v-model="titleText" type="text" ref="title" defaultValue="" v-validate="'min:2'" name="title">
+            <p class="alert" v-if="errors.has('title')">{{ errors.first('title') }} </p>
           </div>
           <div class='field'>
             <label>Project</label>
-            <input v-model="projectText" type="text"  ref="project" defaultValue="">
+            <!-- eslint-disable-next-line -->
+            <input v-model="projectText" type="text"  ref="project" defaultValue="" v-validate="'min:5'" name="project">
+            <p class="alert" v-if="errors.has('project')">{{ errors.first('project') }} </p>
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -45,17 +49,33 @@ export default {
       this.isCreating = false;
     },
     sendForm() {
-      if (this.titleText.length > 0 && this.projectText.length > 0) {
-        const title = this.titleText;
-        const project = this.projectText;
-        this.$emit('create-todo', {
-          title,
-          project,
-          done: false,
-        });
-        this.newTodoText = '';
-      }
-      this.isCreating = false;
+      // if (this.titleText.length > 2 && this.projectText.length > 5) {
+      //   const title = this.titleText;
+      //   const project = this.projectText;
+      //   this.$emit('create-todo', {
+      //     title,
+      //     project,
+      //     done: false,
+      //   });
+      //   this.newTodoText = '';
+      // }
+      // this.isCreating = false;
+      // },
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          const title = this.titleText;
+          const project = this.projectText;
+          this.$emit('create-todo', {
+            title,
+            project,
+            done: false,
+          });
+          this.newTodoText = '';
+          this.isCreating = false;
+        } else {
+          console.log('Inputs not valid');
+        }
+      });
     },
   },
 };
